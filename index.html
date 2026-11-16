@@ -525,19 +525,23 @@ class Component extends DCLogic {
       { q: 'We have prepared a rich scientific program designed for clinicians, trainees and researchers alike. We look forward to your active participation.', i: 'SG', n: '[Secretary General Name]', r: 'Secretary General, BSPMR' },
       { q: 'On behalf of the organizing committee, welcome to Dhaka. Every detail has been planned to make your experience rewarding and memorable.', i: 'OS', n: '[Organizing Secretary Name]', r: 'Organizing Secretary' }
     ];
-    const tagC = { KEYNOTE: ['#FDEEEE', '#A8161D'], INTERNATIONAL: ['#EDF1F7', '#0F2340'], 'RESOURCE PERSON': ['#FDEFE8', '#A63A14'] };
+    const tagC = { 'DISTINGUISHED SPEAKER': ['#0F2340', '#FFFFFF'], KEYNOTE: ['#FDEEEE', '#A8161D'], INTERNATIONAL: ['#EDF1F7', '#0F2340'], 'RESOURCE PERSON': ['#FDEFE8', '#A63A14'] };
+    const photo = (f) => "#EDF1F7 url('assets/speakers/" + f + ".jpg') center / cover no-repeat";
     const speakers = [
-      { i: 'SP', n: '[Speaker Name]', r: '[Designation, Institution]', tag: 'KEYNOTE', bg: '#FDEEEE' },
-      { i: 'SP', n: '[Speaker Name]', r: '[Designation, Country]', tag: 'INTERNATIONAL', bg: '#EDF1F7' },
-      { i: 'SP', n: '[Speaker Name]', r: '[Designation, Institution]', tag: 'RESOURCE PERSON', bg: '#FDEFE8' },
-      { i: 'SP', n: '[Speaker Name]', r: '[Designation, Institution]', tag: 'KEYNOTE', bg: '#FDEEEE' }
+      { i: '', n: 'Prof. Suzon Al Hasan', r: 'Professor of PMR, Islami Bank Medical College, Rajshahi', tag: 'DISTINGUISHED SPEAKER', bg: photo('suzon-al-hasan') },
+      { i: '', n: 'Dr. M. A. K. Azad', r: 'Associate Professor, PM&R, Bangladesh Medical University', tag: 'DISTINGUISHED SPEAKER', bg: photo('azad') },
+      { i: '', n: 'Prof. M. M. Zaman', r: 'Professor & Head, PM&R, Dhaka Medical College', tag: 'DISTINGUISHED SPEAKER', bg: photo('zaman') },
+      { i: '', n: 'Prof. M. A. Shakoor', r: 'Professor, PM&R, Bangladesh Medical University', tag: 'DISTINGUISHED SPEAKER', bg: photo('shakoor') }
     ].map((s) => Object.assign(s, { tagBg: tagC[s.tag][0], tagFg: tagC[s.tag][1] }));
 
     const program = [
       { label: 'Day 1 · 5 Dec', items: [
+        ['08:00 – 08:15', 'Plenary 1 · Hall B', 'Red Flags in Rheumatology — Prof. Suzon Al Hasan', 'PLENARY'],
+        ['08:00 – 08:45', 'Plenary 2 · Hall C', 'Interventional physiatry & regenerative medicine — Prof. M. M. Zaman, Dr. M. A. K. Azad, Prof. M. A. Rahim', 'PLENARY'],
         ['09:00 – 10:30', 'Inaugural session', 'Chief Guest & BSPMR leadership', 'CEREMONY'],
         ['10:45 – 12:15', 'Keynote lectures', '[Keynote topics to be announced]', 'KEYNOTE'],
         ['13:30 – 15:00', 'Scientific session I — Neurological Rehabilitation', 'Stroke and spinal cord injury (SCI)', 'SCIENTIFIC'],
+        ['15:00 – 15:50', 'Plenary 3 · Hall B', 'Robotic rehabilitation & spasticity management — Prof. M. A. Shakoor, Prof. M. M. Zaman', 'PLENARY'],
         ['15:15 – 17:00', 'Scientific session II — Post-surgical Orthopedic Rehabilitation', 'Recovery and function after orthopaedic surgery', 'SCIENTIFIC']
       ] },
       { label: 'Day 2 · 6 Dec', items: [
@@ -549,7 +553,7 @@ class Component extends DCLogic {
         ['16:00 – 16:30', 'Closing ceremony & awards', 'Best paper and poster awards', 'CEREMONY']
       ] }
     ];
-    const kindDot = { WORKSHOP: '#EA5B2B', KEYNOTE: '#EA5B2B', SCIENTIFIC: '#FF5A50', 'FREE PAPER': '#FF5A50', PANEL: '#FF5A50', CEREMONY: '#FFFFFF', BREAK: '#64748B' };
+    const kindDot = { PLENARY: '#EA5B2B', WORKSHOP: '#EA5B2B', KEYNOTE: '#EA5B2B', SCIENTIFIC: '#FF5A50', 'FREE PAPER': '#FF5A50', PANEL: '#FF5A50', CEREMONY: '#FFFFFF', BREAK: '#64748B' };
     const days = program.map((d, i) => ({
       label: d.label, pick: () => this.setState({ day: i }),
       style: 'border: 0; cursor: pointer; padding: 11px 20px; border-radius: 999px; font-weight: 800; font-size: 14px; min-height: 44px; transition: all .3s; ' + (S.day === i ? 'background: #D8222A; color: #FFFFFF;' : 'background: transparent; color: #CBD5E1;')

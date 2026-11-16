@@ -97,21 +97,48 @@ input,select,textarea,button{font-family:inherit}
 
 <sc-if value="{{hasSel}}" hint-placeholder-val="{{ false }}">
 <div style="position: fixed; inset: 0; z-index: 100; background: rgba(15,35,64,.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 20px; animation: fadeIn .25s both" onClick="{{close}}">
-<div role="dialog" aria-modal="true" aria-label="Speaker profile" onClick="{{stop}}" style="background: #FFFFFF; border-radius: 26px; max-width: 640px; width: 100%; overflow: hidden; animation: pop .35s cubic-bezier(.2,.7,.2,1) both; box-shadow: 0 40px 80px -30px rgba(0,0,0,.6)">
-<div style="background: #0F2340; color: #FFFFFF; padding: 28px; display: flex; gap: 20px; align-items: center; position: relative">
+<div role="dialog" aria-modal="true" aria-label="Speaker profile" onClick="{{stop}}" style="background: #FFFFFF; border-radius: 26px; max-width: 680px; width: 100%; max-height: calc(100vh - 40px); overflow-y: auto; animation: pop .35s cubic-bezier(.2,.7,.2,1) both; box-shadow: 0 40px 80px -30px rgba(0,0,0,.6)">
+<div style="background: #0F2340; color: #FFFFFF; padding: 28px 72px 28px 28px; display: flex; gap: 20px; align-items: center; position: relative">
 <div style="width: 96px; height: 96px; border-radius: 50%; border: 4px solid #D8222A; background: {{sel.bg}}; color: #0F2340; display: flex; align-items: center; justify-content: center; font-family: Sora, sans-serif; font-size: 28px; font-weight: 800; flex-shrink: 0">{{sel.i}}</div>
 <div style="min-width: 0">
 <div style="font-size: 12px; font-weight: 800; letter-spacing: .8px; color: #FF7A6E">{{sel.tag}}</div>
 <div style="font-family: Sora, sans-serif; font-size: 24px; font-weight: 800">{{sel.n}}</div>
+<sc-if value="{{sel.deg}}" hint-placeholder-val="{{ false }}"><div style="color: #FFFFFF; font-size: 14px; font-weight: 700; margin-top: 2px">{{sel.deg}}</div></sc-if>
 <div style="color: #CBD5E1; font-size: 15px">{{sel.r}}</div>
+<sc-if value="{{sel.role}}" hint-placeholder-val="{{ false }}"><div style="display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 800; color: #FFFFFF; background: rgba(216,34,42,.85); border-radius: 999px; padding: 4px 12px">{{sel.role}}</div></sc-if>
 </div>
 <button type="button" aria-label="Close profile" onClick="{{close}}" style="position: absolute; right: 16px; top: 16px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255,255,255,.12); color: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
 </div>
 <div style="padding: 28px">
 <div style="font-size: 13px; font-weight: 800; letter-spacing: 1px; color: #D8222A; margin-bottom: 8px">SHORT BIO</div>
-<p style="font-size: 16px; line-height: 1.75; color: #2F3B4C; margin: 0 0 20px">[Speaker biography provided by BSPMR — qualifications, current position, areas of expertise and notable contributions.]</p>
-<div style="font-size: 13px; font-weight: 800; letter-spacing: 1px; color: #D8222A; margin-bottom: 8px">SESSION</div>
-<div style="background: #FDEEEE; border-radius: 14px; padding: 14px 16px; font-size: 15px"><strong>{{sel.session}}</strong><br><span style="color: #52606F">[Day · Time · Hall]</span></div>
+<p style="font-size: 16px; line-height: 1.75; color: #2F3B4C; margin: 0 0 20px">{{sel.bio}}</p>
+<sc-if value="{{hasStats}}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 20px">
+<sc-for list="{{selStats}}" as="st" hint-placeholder-count="3">
+<div style="background: #F7F9FC; border: 1px solid #E3E8EF; border-top: 4px solid {{st.c}}; border-radius: 14px; padding: 14px 16px">
+<div style="font-family: Sora, sans-serif; font-weight: 800; font-size: 26px; line-height: 1.1">{{st.v}}</div>
+<div style="font-size: 13px; color: #52606F; margin-top: 4px; line-height: 1.45">{{st.l}}</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{hasTags}}" hint-placeholder-val="{{ false }}">
+<div style="font-size: 13px; font-weight: 800; letter-spacing: 1px; color: #D8222A; margin-bottom: 8px">INTEREST &amp; EXPERTISE</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px">
+<sc-for list="{{selTags}}" as="tg" hint-placeholder-count="5">
+<span style="font-size: 13px; font-weight: 700; color: #0F2340; background: #EDF1F7; border-radius: 999px; padding: 6px 12px">{{tg}}</span>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{sel.quote}}" hint-placeholder-val="{{ false }}">
+<p style="font-size: 15px; line-height: 1.7; color: #2F3B4C; font-style: italic; margin: 0 0 20px; padding-left: 14px; border-left: 3px solid #EA5B2B">“{{sel.quote}}”</p>
+</sc-if>
+<div style="font-size: 13px; font-weight: 800; letter-spacing: 1px; color: #D8222A; margin-bottom: 8px">{{talkLabel}}</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{selTalks}}" as="tk" hint-placeholder-count="1">
+<div style="background: #FDEEEE; border-radius: 14px; padding: 14px 16px; font-size: 15px"><strong>{{tk.title}}</strong><br><span style="color: #52606F">{{tk.meta}}</span></div>
+</sc-for>
+</div>
 </div>
 </div>
 </div>
@@ -125,7 +152,60 @@ class Component extends DCLogic {
   constructor(props) { super(props); this.state = { tab: 'ALL', sel: -1 }; }
   renderVals() {
     const S = this.state;
-    const tagC = { KEYNOTE: ['#FDEEEE', '#A8161D', '#FDEEEE'], INTERNATIONAL: ['#EDF1F7', '#0F2340', '#EDF1F7'], 'RESOURCE PERSON': ['#FDEFE8', '#A63A14', '#FDEFE8'] };
+    const tagC = { 'DISTINGUISHED SPEAKER': ['#0F2340', '#FFFFFF', '#EDF1F7'], KEYNOTE: ['#FDEEEE', '#A8161D', '#FDEEEE'], INTERNATIONAL: ['#EDF1F7', '#0F2340', '#EDF1F7'], 'RESOURCE PERSON': ['#FDEFE8', '#A63A14', '#FDEFE8'] };
+    const statC = ['#D8222A', '#EA5B2B', '#0F2340'];
+    const venue = 'Shahid Abu Sayed International Convention Center, BMU, Dhaka';
+    const talk = (plenary, time, hall, title) => ({ title, meta: plenary + ' · 5 Dec 2026 · ' + time + ' · ' + hall + ' · ' + venue });
+    const distinguished = [
+      {
+        n: 'Prof. Suzon Al Hasan', photo: 'suzon-al-hasan', deg: 'MBBS, FCPS (PMR)',
+        r: 'Professor of PMR, Islami Bank Medical College, Rajshahi', role: 'Senior Vice-President, BSPMR',
+        bio: 'MBBS, Sher-E-Bangla Medical College, Barishal (1987); FCPS in Physical Medicine and Rehabilitation (1998). Trained in cardiac rehabilitation at Madras Medical Mission, Chennai, and spinal rehabilitation at CMC Vellore. Visiting Professor of Physical Education and Sports Science, University of Rajshahi.',
+        stats: [['60+', 'National & international publications'], ['25+', 'Years as a physiatry specialist (FCPS 1998)'], ['3', 'Medical college journals served as editor']],
+        tags: ['Cardiac rehabilitation · MMM, Chennai', 'Spinal rehabilitation · CMC, Vellore', 'Community-based rehabilitation', 'Rheumatology in physiatry', 'Physical education & sports science'],
+        quote: 'Honouring decades of contribution to PMR practice and academia, and a pioneering role in community-based rehabilitation across rural Bangladesh',
+        talks: [talk('Plenary 1', '8:00 – 8:15 AM', 'Hall B', 'Red Flags in Rheumatology: Emergencies in Physiatry Practice')]
+      },
+      {
+        n: 'Prof. M. M. Zaman', photo: 'zaman', deg: 'MBBS, FCPS, FIAS, Diplomate ABRM (USA)',
+        r: 'Professor & Head, PM&R, Dhaka Medical College', role: 'Joint Secretary, BSPMR',
+        bio: 'MBBS, Chittagong Medical College (2002); FCPS, BCPS (2009). Trained in musculoskeletal ultrasound, interventional pain management and regenerative medicine in India, Taiwan, Germany and the USA. Organizing Secretary, BSMSM; faculty, BCPS PMR committee and WFUMB 2017.',
+        stats: [['ABRM', 'Board-certified Diplomate, USA (2020)'], ['2', 'International scholarships: Lien I-nan, Taiwan · ICRS-Regen Lab, USA'], ['4', 'Countries of advanced training: India, Taiwan, Germany, USA']],
+        tags: ['Minimally invasive spine & pain interventions', 'Sports injury · ACL/PCL', 'Neuro & ortho rehabilitation', 'Regenerative medicine · PRP & stem cell', 'Arthritis & rheumatology'],
+        quote: 'Honouring an outstanding contribution to PMR practice and academia, advancing image-guided intervention and regenerative medicine',
+        talks: [
+          talk('Plenary 2', '8:00 – 8:15 AM', 'Hall C', 'Minimally Invasive Endoscopic Spine Procedure in Interventional Physiatry'),
+          talk('Plenary 3', '3:35 – 3:50 PM', 'Hall B', 'Botulinum Toxin Type A and 5% Phenol Neurolysis in Spasticity Management: Complementary Approaches in Rehabilitation')
+        ]
+      },
+      {
+        n: 'Dr. M. A. K. Azad', photo: 'azad', deg: 'MBBS, FCPS (PMR)',
+        r: 'Associate Professor, PM&R, Bangladesh Medical University', role: 'Secretary General, BSPMR',
+        bio: 'MBBS, Cumilla Medical College (2000); FCPS, BCPS (2010). Trained in interventional physiatry at Seoul National University Hospital (AOSPRM scholarship) and rheumatic disease rehabilitation at Istanbul University (ISPRM sponsorship).',
+        stats: [['3', 'EULAR MSK ultrasound courses: Hong Kong, UK, Netherlands'], ['2', 'International awards: AOSPRM scholarship, Korea · ISPRM sponsorship, Turkey'], ['15+', 'Years as consultant physiatrist (since 2011)']],
+        tags: ['MSK ultrasonography', 'Fluoroscopy-guided pain management', 'Sono-guided joint & spine interventions', 'Regenerative medicine · PRP & stem cell', 'Rheumatic disease rehabilitation'],
+        quote: 'Honouring a remarkable contribution to PMR practice and academia, bringing sono-guided intervention and regenerative medicine to everyday physiatry',
+        talks: [talk('Plenary 2', '8:15 – 8:30 AM', 'Hall C', 'Role of Regenerative Medicine in Current Physiatry Practice')]
+      },
+      {
+        n: 'Prof. M. A. Rahim', photo: 'rahim', deg: 'MBBS, FCPS (Physical Medicine)',
+        r: 'Professor, PM&R, Chittagong Medical College', role: '',
+        bio: 'MBBS, Chittagong Medical College (2002); FCPS, BCPS (2011). In government health service since 2005 (BCS 24th Batch); promoted to Professor in 2025. Long involved in interventional physiatry. Trained in India, Malaysia, Germany, Thailand and Taiwan.',
+        stats: [['FCPS', 'Physical Medicine, BCPS'], ['20+', 'Years in government health service'], ['5', 'Countries of training: India, Malaysia, Germany, Thailand, Taiwan']],
+        tags: ['Interventional physiatry', 'Musculoskeletal ultrasound', 'Knee osteoarthritis & rheumatology', 'Sports injury', 'Pediatric rehabilitation'],
+        quote: 'Honouring a distinguished contribution to PMR practice and academia, advancing interventional physiatry',
+        talks: [talk('Plenary 2', '8:30 – 8:45 AM', 'Hall C', 'Beyond Injection: Expanding the Diagnostic and Therapeutic Horizon of Interventional Physiatry – A Case-Based Perspective')]
+      },
+      {
+        n: 'Prof. M. A. Shakoor', photo: 'shakoor', deg: 'MBBS, FCPS, PhD',
+        r: 'Professor, PM&R, Bangladesh Medical University', role: 'Focal Person, BMU Robotic Rehabilitation Centre',
+        bio: 'MBBS, Sher-E-Bangla Medical College, Barishal (1989); FCPS, BCPS (2000); PhD, University of Chittagong. In PMR at BSMMU (now BMU) since 2003 and Professor since 2016, having served as Chairman of the department. Chairman, Ethics Review Board, Bangladesh Bioethics Society; author of Physical Modalities in Rehabilitation Medicine (2024).',
+        stats: [['90+', 'National & international publications'], ['35+', 'Years of clinical experience (since 1989)'], ['2', 'Gold Medals: UGC (2006) and University Research (2016)']],
+        tags: ['Robotic rehabilitation', 'Physical modalities & electrotherapy', 'Spine pain & cervical spondylosis', 'Research ethics & bioethics', 'Rheumatic & musculoskeletal rehabilitation'],
+        quote: 'Honouring a lifetime of contribution to PMR practice and academia, leading robotic rehabilitation and research ethics in Bangladesh',
+        talks: [talk('Plenary 3', '3:00 – 3:20 PM', 'Hall B', 'Fifty-Seven Robots and Seven Trials: Lessons for Robotic Rehabilitation Practice in Bangladesh')]
+      }
+    ].map((d) => Object.assign({}, d, { tag: 'DISTINGUISHED SPEAKER', i: '', session: d.talks[0].title }));
     const raw = [
       ['KEYNOTE', '[Designation, Institution]', 'Keynote lecture'],
       ['INTERNATIONAL', '[Designation, Country]', 'Keynote lecture'],
@@ -136,8 +216,16 @@ class Component extends DCLogic {
       ['RESOURCE PERSON', '[Designation, Institution]', 'Scientific session II'],
       ['RESOURCE PERSON', '[Designation, Institution]', 'Panel discussion']
     ];
-    const all = raw.map((r, idx) => ({ idx, tag: r[0], r: r[1], session: r[2], i: 'SP', n: '[Speaker Name]', tagBg: tagC[r[0]][0], tagFg: tagC[r[0]][1], bg: tagC[r[0]][2] }));
-    const tabDefs = [['ALL', 'All speakers'], ['KEYNOTE', 'Keynote'], ['INTERNATIONAL', 'International'], ['RESOURCE PERSON', 'Resource persons']];
+    const placeholders = raw.map((r) => ({
+      tag: r[0], r: r[1], session: r[2], i: 'SP', n: '[Speaker Name]', deg: '', role: '', quote: '', stats: [], tags: [],
+      bio: '[Speaker biography provided by BSPMR — qualifications, current position, areas of expertise and notable contributions.]',
+      talks: [{ title: r[2], meta: '[Day · Time · Hall]' }]
+    }));
+    const all = distinguished.concat(placeholders).map((s, idx) => Object.assign({}, s, {
+      idx, tagBg: tagC[s.tag][0], tagFg: tagC[s.tag][1],
+      bg: s.photo ? tagC[s.tag][2] + " url('assets/speakers/" + s.photo + ".jpg') center / cover no-repeat" : tagC[s.tag][2]
+    }));
+    const tabDefs = [['ALL', 'All speakers'], ['DISTINGUISHED SPEAKER', 'Distinguished'], ['KEYNOTE', 'Keynote'], ['INTERNATIONAL', 'International'], ['RESOURCE PERSON', 'Resource persons']];
     const tabs = tabDefs.map(([id, label]) => ({
       label, pick: () => this.setState({ tab: id }),
       style: 'border: 0; cursor: pointer; padding: 12px 18px; border-radius: 999px; font-weight: 800; font-size: 14px; min-height: 46px; transition: all .3s; ' + (S.tab === id ? 'background: #D8222A; color: #FFFFFF;' : 'background: transparent; color: #0F2340;')
@@ -146,6 +234,10 @@ class Component extends DCLogic {
     const sel = S.sel >= 0 ? all[S.sel] : all[0];
     return {
       tabs, list, sel, hasSel: S.sel >= 0,
+      selStats: sel.stats.map((st, i) => ({ v: st[0], l: st[1], c: statC[i % 3] })),
+      selTags: sel.tags, selTalks: sel.talks,
+      hasStats: sel.stats.length > 0, hasTags: sel.tags.length > 0,
+      talkLabel: sel.talks.length > 1 ? 'SESSIONS' : 'SESSION',
       countLabel: list.length + ' speaker' + (list.length === 1 ? '' : 's'),
       close: () => this.setState({ sel: -1 }),
       stop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); }
